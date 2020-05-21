@@ -13,13 +13,16 @@ router.use('/remove/:id', (req,res,next)=>{
     const id = req.params.id;
     const index = data.findIndex(d => d.id == id);
     data.splice(index,1);
-    res.status(302).redirect('/');
+    fs.writeFile('notes.json', JSON.stringify(data, null, 2), ()=> {
+        res.status(302).redirect('/');
+    });
 });
 
 router.post('/note', (req,res,next) => {
     data.push({
         id: Math.random(),
-        note: req.body.note
+        note: req.body.note,
+        done: false
     });
     fs.writeFile('notes.json', JSON.stringify(data, null, 2), ()=> {
         res.status(302).redirect('/');
