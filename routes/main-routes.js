@@ -9,6 +9,7 @@ router.get('/', (req,res,next) => {
     res.render('index', { notes: data });
 });
 
+//remove item
 router.use('/remove/:id', (req,res,next)=>{
     const id = req.params.id;
     const index = data.findIndex(d => d.id == id);
@@ -18,6 +19,20 @@ router.use('/remove/:id', (req,res,next)=>{
     });
 });
 
+//item checkout
+router.use('/done/:id', (req,res,next) => {
+    const id = req.params.id;
+    const index = data.findIndex(d => d.id == id);
+    data[index] = {
+        ...data[index],
+        done: !data[index].done
+    };
+    fs.writeFile('notes.json', JSON.stringify(data, null, 2), ()=> {
+        res.status(302).redirect('/');
+    });
+});
+
+//new item
 router.post('/note', (req,res,next) => {
     data.push({
         id: Math.random(),

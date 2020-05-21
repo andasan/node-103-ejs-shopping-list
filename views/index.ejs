@@ -25,8 +25,16 @@
                     <ul class="list-group">
                         <% for(let note of notes) { %>
                             <li class="list-group-item d-flex align-items-center justify-content-between">
-                                <%= note.note %>
-                                <a href="/remove/<%=note.id %>"><i class="fas fa-trash-alt"></i></a>
+                                <% if(note.done) {%>
+                                    <s><%= note.note %></s>
+                                <% } else { %>
+                                    <%= note.note %>
+                                <% } %>
+                                <div>
+                                    <a href="/done/<%=note.id %>"><i class="fas fa-check"></i></a>
+                                    <a href="/remove/<%=note.id %>"><i class="fas fa-trash-alt"></i></a>
+                                </div>
+                                
                             </li>
                         <% } %>
                     </ul>
