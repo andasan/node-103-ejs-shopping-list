@@ -1,9 +1,20 @@
 const express = require('express');
 const fs = require('fs');
+const path = require('path');
 
 const router = express.Router();
 
-const data = [];
+//------------------------solution--------------------------
+//This condition checks whether the file exists in the system/application
+//If it doesnt, it creates a new JSON file with empty data
+if (!fs.existsSync(path.join(__dirname, '../', 'notes.json'))) { 
+    const output = [];
+    fs.writeFileSync('notes.json', JSON.stringify(output));   
+}
+
+const unparsedData = fs.readFileSync(path.join(__dirname, '../', 'notes.json'));
+const data = JSON.parse(unparsedData);
+//----------------------------------------------------------
 
 router.get('/', (req,res,next) => {
     res.render('index', { notes: data });
